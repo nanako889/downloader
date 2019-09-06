@@ -229,7 +229,7 @@ public class D {
         public static Task createInstance(Context context, String downloadUrl,
                                           String fileNameToSave) {
             Task task = new Task(downloadUrl, context.getExternalFilesDir(
-                    "update_download").getAbsolutePath(), fileNameToSave, false, true);
+                    "downloader").getAbsolutePath(), fileNameToSave, false, true);
             return task;
         }
 
