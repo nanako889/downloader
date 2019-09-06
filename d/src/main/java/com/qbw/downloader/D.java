@@ -371,30 +371,34 @@ public class D {
         }
     }
 
-    public void addListener(Listener listener) {
-        synchronized (mListeners) {
-            if (!mListeners.contains(listener)) {
-                mListeners.add(listener);
+    public void addListener(final Listener listener) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!mListeners.contains(listener)) {
+                    mListeners.add(listener);
+                }
             }
-        }
+        });
     }
 
-    public void removeListener(Listener listener) {
-        synchronized (mListeners) {
-            mListeners.remove(listener);
-        }
+    public void removeListener(final Listener listener) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mListeners.remove(listener);
+            }
+        });
     }
 
     private void notifyListener(final Status status) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
-                synchronized (mListeners) {
-                    int s = mListeners.size();
-                    for (int i = 0; i < s; i++) {
-                        if (mListeners.get(i).onDownload(status)) {
-                            break;
-                        }
+                int s = mListeners.size();
+                for (int i = 0; i < s; i++) {
+                    if (mListeners.get(i).onDownload(status)) {
+                        break;
                     }
                 }
             }
